@@ -1,14 +1,167 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".PaymentFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:orientation="vertical">
 
-</FrameLayout>
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center_horizontal"
+                android:id="@+id/icon"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/numberTxt"
+                android:text="Bkash number *"
+                android:fontFamily="@font/inter"
+                android:textSize="14sp"
+                android:layout_marginTop="20dp"
+                android:layout_marginHorizontal="30dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/userPhoto"/>
+
+            <EditText
+                android:id="@+id/numberEt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="30dp"
+                android:layout_marginTop="5dp"
+                android:textColor="@color/black"
+                android:hint="Enter number"
+                android:inputType="phone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:textColorHint="@color/gray"
+                android:textSize="15sp"
+                android:fontFamily="@font/inter"
+                android:background="@drawable/et_bg"
+                app:layout_constraintTop_toBottomOf="@+id/fullNameTv"
+                tools:layout_editor_absoluteX="30dp" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/nameTxt"
+                android:text="Full name *"
+                android:fontFamily="@font/inter"
+                android:textSize="14sp"
+                android:layout_marginTop="20dp"
+                android:layout_marginHorizontal="30dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/userPhoto"/>
+
+            <EditText
+                android:id="@+id/fullNameEt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="30dp"
+                android:layout_marginTop="5dp"
+                android:textColor="@color/black"
+                android:hint="Enter name"
+                android:inputType="text"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:textColorHint="@color/gray"
+                android:textSize="15sp"
+                android:fontFamily="@font/inter"
+                android:background="@drawable/et_bg"
+                app:layout_constraintTop_toBottomOf="@+id/fullNameTv"
+                tools:layout_editor_absoluteX="30dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/narrationTxt"
+                android:text="Narration"
+                android:fontFamily="@font/inter"
+                android:textSize="14sp"
+                android:layout_marginTop="20dp"
+                android:layout_marginHorizontal="30dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/userPhoto"/>
+
+            <EditText
+                android:id="@+id/narrationET"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="30dp"
+                android:layout_marginTop="5dp"
+                android:textColor="@color/black"
+                android:hint="Enter narration"
+                android:inputType="text"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:textColorHint="@color/gray"
+                android:textSize="15sp"
+                android:fontFamily="@font/inter"
+                android:background="@drawable/et_bg"
+                app:layout_constraintTop_toBottomOf="@+id/fullNameTv"
+                tools:layout_editor_absoluteX="30dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/amountTxt"
+                android:text="Amount *"
+                android:fontFamily="@font/inter"
+                android:textSize="14sp"
+                android:layout_marginTop="20dp"
+                android:layout_marginHorizontal="30dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/userPhoto"/>
+
+            <EditText
+                android:id="@+id/amountEt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="30dp"
+                android:layout_marginTop="5dp"
+                android:textColor="@color/black"
+                android:hint="Enter amount"
+                android:inputType="numberDecimal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:textColorHint="@color/gray"
+                android:textSize="15sp"
+                android:fontFamily="@font/inter"
+                android:background="@drawable/et_bg"
+                app:layout_constraintTop_toBottomOf="@+id/fullNameTv"
+                tools:layout_editor_absoluteX="30dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/sumitBtn"
+                android:layout_width="wrap_content"
+                style="@style/Widget.Material3.Button"
+                app:cornerRadius="5dp"
+                android:backgroundTint="#6C63FF"
+                android:layout_height="50dp"
+                android:text="Pay"
+                android:textColor="@color/white"
+                android:fontFamily="@font/inter_semibold"
+                app:rippleColor="@color/white"
+                android:textSize="16sp"
+                android:layout_margin="30dp"
+                android:layout_gravity="center_horizontal"
+                android:paddingVertical="0dp"
+               />
+
+        </LinearLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

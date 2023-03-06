@@ -14,7 +14,7 @@ class MainActivity : AppCompatActivity() {
         binding= ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding?.root)
         supportActionBar?.setBackgroundDrawable(ColorDrawable(Color.parseColor("#ffffff")))
-        supportActionBar?.elevation=2f
+        supportActionBar?.elevation=5f
 
         val navHostFragment =
             (supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment?)!!
