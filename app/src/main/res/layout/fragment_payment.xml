@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".PaymentFragment">
+    tools:context=".fragment.PaymentFragment">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -145,7 +145,7 @@
                 tools:layout_editor_absoluteX="30dp" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/sumitBtn"
+                android:id="@+id/submitBtn"
                 android:layout_width="wrap_content"
                 style="@style/Widget.Material3.Button"
                 app:cornerRadius="5dp"

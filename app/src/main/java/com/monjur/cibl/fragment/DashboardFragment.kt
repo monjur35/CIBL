@@ -1,4 +1,4 @@
-package com.monjur.cibl
+package com.monjur.cibl.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
+import com.monjur.cibl.R
 import com.monjur.cibl.databinding.FragmentDashboardBinding
 
 

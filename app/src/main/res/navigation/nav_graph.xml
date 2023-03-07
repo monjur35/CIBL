@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/dashboardFragment"
-        android:name="com.monjur.cibl.DashboardFragment"
+        android:name="com.monjur.cibl.fragment.DashboardFragment"
         android:label="fragment_dashboard"
         tools:layout="@layout/fragment_dashboard" >
         <action
@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/paymentFragment"
-        android:name="com.monjur.cibl.PaymentFragment"
+        android:name="com.monjur.cibl.fragment.PaymentFragment"
         android:label="fragment_payment"
         tools:layout="@layout/fragment_payment" />
 </navigation>
