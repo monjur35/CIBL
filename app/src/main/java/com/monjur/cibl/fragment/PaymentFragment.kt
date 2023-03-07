@@ -26,6 +26,7 @@ import com.google.android.gms.tasks.CancellationTokenSource
 import com.google.android.material.card.MaterialCardView
 import com.monjur.cibl.R
 import com.monjur.cibl.databinding.FragmentPaymentBinding
+import com.monjur.cibl.utils.PDFConverter
 import java.util.*
 
 
@@ -118,6 +119,7 @@ class PaymentFragment : Fragment() {
         val numberTv=dialogLayout.findViewById<TextView>(R.id.number)
         val numbertxt=dialogLayout.findViewById<TextView>(R.id.paymentTypeNumberTxt)
         val totalTv=dialogLayout.findViewById<TextView>(R.id.totalAmount)
+        val downloadReceipt=dialogLayout.findViewById<TextView>(R.id.downloadPdf)
 
 
 
@@ -139,6 +141,12 @@ class PaymentFragment : Fragment() {
         numbertxt.text="$paymentType number"
         narrationTv.text=narration
         location.text=fusedlocation
+
+
+        downloadReceipt.setOnClickListener {
+            val pdfConverter = PDFConverter()
+            pdfConverter.createPdf(requireContext(), requireActivity())
+        }
 
 
         builder.setView(dialogLayout)
