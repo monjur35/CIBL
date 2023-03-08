@@ -21,9 +21,7 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.setBackgroundDrawable(ColorDrawable(Color.parseColor("#ffffff")))
         supportActionBar?.elevation=5f
 
-        val navHostFragment =
-            (supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment?)!!
-        val navController = navHostFragment.navController
+
 
         isLocationPermissionGranted()
 
@@ -49,5 +47,10 @@ class MainActivity : AppCompatActivity() {
             )
 
         }
+    }
+
+    override fun onDestroy() {
+        binding=null
+        super.onDestroy()
     }
 }

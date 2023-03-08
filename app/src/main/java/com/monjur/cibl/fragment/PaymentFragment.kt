@@ -275,4 +275,10 @@ class PaymentFragment : Fragment() {
                 }
         }
     }
+
+
+    override fun onDestroyView() {
+        binding=null
+        super.onDestroyView()
+    }
 }

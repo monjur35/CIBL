@@ -42,5 +42,9 @@ class DashboardFragment : Fragment() {
             .navigate(R.id.action_dashboardFragment_to_paymentFragment,bundle)
 
     }
+    override fun onDestroyView() {
+        binding=null
+        super.onDestroyView()
+    }
 
 }
