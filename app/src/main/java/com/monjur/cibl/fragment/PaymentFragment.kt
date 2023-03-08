@@ -23,6 +23,7 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.tasks.CancellationTokenSource
+import com.google.android.material.button.MaterialButton
 import com.google.android.material.card.MaterialCardView
 import com.monjur.cibl.R
 import com.monjur.cibl.databinding.FragmentPaymentBinding
@@ -133,8 +134,8 @@ class PaymentFragment : Fragment() {
         val numberTv = dialogLayout.findViewById<TextView>(R.id.number)
         val numbertxt = dialogLayout.findViewById<TextView>(R.id.paymentTypeNumberTxt)
         val totalTv = dialogLayout.findViewById<TextView>(R.id.totalAmount)
-        val downloadReceipt = dialogLayout.findViewById<MaterialCardView>(R.id.downloadPdf)
-        val shareReceipt = dialogLayout.findViewById<MaterialCardView>(R.id.sharePdf)
+        val downloadReceipt = dialogLayout.findViewById<MaterialButton>(R.id.downloadPdf)
+        val shareReceipt = dialogLayout.findViewById<MaterialButton>(R.id.sharePdf)
 
 
 
