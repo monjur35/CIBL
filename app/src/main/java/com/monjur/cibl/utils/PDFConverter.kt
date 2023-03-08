@@ -16,12 +16,14 @@ import android.util.DisplayMetrics
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.FileProvider
-import androidx.recyclerview.widget.RecyclerView
 import com.monjur.cibl.R
+import com.monjur.cibl.databinding.FragmentPaymentBinding
+import com.monjur.cibl.databinding.StatusDialogBinding
+import com.monjur.cibl.models.PdfData
 import java.io.*
 import java.util.Date
 
@@ -74,13 +76,7 @@ class PDFConverter {
         val page = pdfDocument.startPage(pageInfo)
         page.canvas.drawBitmap(bitmap, 0F, 0F, null)
         pdfDocument.finishPage(page)
-      //  val filePath = File(context.getExternalFilesDir(null), "bitmapPdf.pdf")
-     //   pdfDocument.writeTo(FileOutputStream(filePath))
-      //  pdfDocument.close()
 
-
-     //  val file = File(context.getExternalFilesDir(null), "bitmapPdfa1.pdf")
-  //   val file = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "bitmapPdfa.pdf")
 
         val s= if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             MediaStore.Downloads.EXTERNAL_CONTENT_URI.path
@@ -138,13 +134,46 @@ class PDFConverter {
     @RequiresApi(Build.VERSION_CODES.N)
     fun createPdf(
         context: Context,
+        pdfData: PdfData,
         activity: Activity
     ) {
         val inflater = LayoutInflater.from(context)
-        val view = inflater.inflate(R.layout.status_dialog, null)
+       // val view = inflater.inflate(R.layout.status_dialog, null)
+        val view=StatusDialogBinding.inflate(inflater)
+        view.dissmiss.visibility=View.INVISIBLE
+        view.downloadPdf.visibility=View.GONE
+        view.sharePdf.visibility=View.GONE
 
-        val bitmap = createBitmapFromView(context, view, activity)
+        if (pdfData.type=="Bkash"){
+            view.imageView.setImageDrawable(
+                AppCompatResources.getDrawable(context,
+                R.drawable.bkash_money_send_icon
+            ))
+        }
+        else{
+            view.imageView.setImageDrawable(
+                AppCompatResources.getDrawable(context,
+                R.drawable.ic_nagad
+            ) )
+        }
+
+        setDataToView(view,pdfData)
+
+
+        val bitmap = createBitmapFromView(context, view.root, activity)
         convertBitmapToPdf(bitmap, activity)
+    }
+
+    private fun setDataToView(view: StatusDialogBinding, pdfData: PdfData) {
+        view.fundTransferTxt.text="${pdfData.type} Fund Transfer"
+        view.amount.text=pdfData.amount.toDouble().toString()
+        view.time.text=pdfData.transactionTime
+        view.totalAmount.text="BDT ${pdfData.amount}"
+        view.number.text=pdfData.number
+        view.paymentTypeNumberTxt.text="${pdfData.type} number"
+        view.narration.text=pdfData.narration
+        view.location.text=pdfData.location
+
     }
 
 

@@ -21,11 +21,11 @@ import androidx.fragment.app.Fragment
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
-import com.google.android.gms.location.Priority
 import com.google.android.gms.tasks.CancellationTokenSource
 import com.google.android.material.card.MaterialCardView
 import com.monjur.cibl.R
 import com.monjur.cibl.databinding.FragmentPaymentBinding
+import com.monjur.cibl.models.PdfData
 import com.monjur.cibl.utils.PDFConverter
 import java.util.*
 
@@ -68,13 +68,11 @@ class PaymentFragment : Fragment() {
             val number=binding?.numberEt?.text.toString()
             val name=binding?.fullNameEt?.text.toString()
             val narration=binding?.narrationET?.text.toString()
-            val amount=binding?.amountEt?.text.toString().toDouble().toString()
+            val amount=binding?.amountEt?.text.toString()
 
             if (checkValidation(number,name,amount,paymentType)){
                 showAlertDialog(number,name,amount,narration,paymentType)
             }
-
-
         }
     }
 
@@ -120,6 +118,7 @@ class PaymentFragment : Fragment() {
         val numbertxt=dialogLayout.findViewById<TextView>(R.id.paymentTypeNumberTxt)
         val totalTv=dialogLayout.findViewById<TextView>(R.id.totalAmount)
         val downloadReceipt=dialogLayout.findViewById<TextView>(R.id.downloadPdf)
+        val shareReceipt=dialogLayout.findViewById<TextView>(R.id.sharePdf)
 
 
 
@@ -134,7 +133,7 @@ class PaymentFragment : Fragment() {
            ) )
         }
         fundTransferTxt.text="$paymentType Fund Transfer"
-        amountTv.text=amount
+        amountTv.text=amount.toDouble().toString()
         transactionTime.text=Date().time.toString()
         totalTv.text="BDT $amount"
         numberTv.text=number
@@ -142,10 +141,19 @@ class PaymentFragment : Fragment() {
         narrationTv.text=narration
         location.text=fusedlocation
 
+        val pdfData= PdfData(name,amount,number,narration,paymentType.toString(),fusedlocation,transactionTime.text.toString())
+
 
         downloadReceipt.setOnClickListener {
+            downloadReceipt.visibility=View.GONE
+            shareReceipt.visibility=View.GONE
+
             val pdfConverter = PDFConverter()
-            pdfConverter.createPdf(requireContext(), requireActivity())
+            pdfConverter.createPdf(requireContext(),pdfData, requireActivity())
+
+
+            downloadReceipt.visibility=View.VISIBLE
+            shareReceipt.visibility=View.VISIBLE
         }
 
 
