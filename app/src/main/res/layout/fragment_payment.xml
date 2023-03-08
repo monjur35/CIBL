@@ -20,7 +20,7 @@
             android:orientation="vertical">
 
             <ImageView
-                android:layout_width="100dp"
+                android:layout_width="120dp"
                 android:layout_height="100dp"
                 android:layout_gravity="center_horizontal"
                 android:id="@+id/icon"/>
@@ -42,7 +42,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="30dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="8dp"
                 android:textColor="@color/black"
                 android:hint="Enter number"
                 android:inputType="phone"
@@ -63,7 +63,7 @@
                 android:text="Full name *"
                 android:fontFamily="@font/inter"
                 android:textSize="14sp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="17dp"
                 android:layout_marginHorizontal="30dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/userPhoto"/>
@@ -73,7 +73,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="30dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="8dp"
                 android:textColor="@color/black"
                 android:hint="Enter name"
                 android:inputType="text"
@@ -92,7 +92,7 @@
                 android:text="Narration"
                 android:fontFamily="@font/inter"
                 android:textSize="14sp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="17dp"
                 android:layout_marginHorizontal="30dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/userPhoto"/>
@@ -102,7 +102,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="30dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="8dp"
                 android:textColor="@color/black"
                 android:hint="Enter narration"
                 android:inputType="text"
@@ -121,7 +121,7 @@
                 android:text="Amount *"
                 android:fontFamily="@font/inter"
                 android:textSize="14sp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="17dp"
                 android:layout_marginHorizontal="30dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/userPhoto"/>
@@ -131,7 +131,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="30dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="8dp"
                 android:textColor="@color/black"
                 android:hint="Enter amount"
                 android:inputType="numberDecimal"

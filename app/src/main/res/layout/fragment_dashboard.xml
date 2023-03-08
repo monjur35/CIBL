@@ -14,7 +14,7 @@
         android:layout_marginHorizontal="15dp"
         android:layout_marginTop="20dp"
         android:fontFamily="@font/inter_semibold"
-        android:text="Select your option:"
+        android:text="Select your payment option:"
         android:textColor="#2B2D39"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"

@@ -133,8 +133,8 @@ class PaymentFragment : Fragment() {
         val numberTv = dialogLayout.findViewById<TextView>(R.id.number)
         val numbertxt = dialogLayout.findViewById<TextView>(R.id.paymentTypeNumberTxt)
         val totalTv = dialogLayout.findViewById<TextView>(R.id.totalAmount)
-        val downloadReceipt = dialogLayout.findViewById<TextView>(R.id.downloadPdf)
-        val shareReceipt = dialogLayout.findViewById<TextView>(R.id.sharePdf)
+        val downloadReceipt = dialogLayout.findViewById<MaterialCardView>(R.id.downloadPdf)
+        val shareReceipt = dialogLayout.findViewById<MaterialCardView>(R.id.sharePdf)
 
 
 
@@ -254,6 +254,7 @@ class PaymentFragment : Fragment() {
                         val address =
                             geoCoder.getFromLocation(location.latitude, location.longitude, 1)
                         fusedlocation = address?.get(0)?.adminArea.toString()
+                        Log.e("Location", "getCurrentLocation: 2 $fusedlocation")
                     } else {
                         client.lastLocation.addOnSuccessListener {
                             if (it != null) {

@@ -1,7 +1,6 @@
 package com.monjur.cibl.utils
 
 import android.app.Activity
-import android.content.ActivityNotFoundException
 import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
@@ -20,13 +19,11 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.FileProvider
-import androidx.core.net.toUri
 import com.monjur.cibl.R
-import com.monjur.cibl.databinding.FragmentPaymentBinding
 import com.monjur.cibl.databinding.StatusDialogBinding
 import com.monjur.cibl.models.PdfData
 import java.io.*
-import java.util.Date
+import java.util.*
 
 
 class PDFConverter {
@@ -106,9 +103,6 @@ class PDFConverter {
         page.canvas.drawBitmap(bitmap, 0F, 0F, null)
         pdfDocument.finishPage(page)
 
-
-
-
         val file = File(Environment.getExternalStoragePublicDirectory(
         Environment.DIRECTORY_DOWNLOADS), "payment receipt${Date().time}.pdf")
 
@@ -126,15 +120,18 @@ class PDFConverter {
             }
 
             Toast.makeText(context,"Downloaded",Toast.LENGTH_SHORT).show()
-            Log.e("TAG", "convertBitmapToPdf:${file.path} ", )
+            Log.e("TAG", "convertBitmapToPdf:${file.path} ")
 
         } catch (e: IOException) {
             e.printStackTrace()
-            Log.e("TAG", "convertBitmapToPdf: ${e.message}", )
+            Log.e("TAG", "convertBitmapToPdf: ${e.message}")
             Toast.makeText(context,e.localizedMessage,Toast.LENGTH_SHORT).show()
         }
 
         }else{
+          /*  val Sharefile = File(context.getExternalFilesDir(
+                Environment.DIRECTORY_DOWNLOADS), "payment receipt${Date().time}.pdf")*/
+            pdfDocument.writeTo(FileOutputStream(file))
             sharePdf(context, file)
         }
 
@@ -143,7 +140,7 @@ class PDFConverter {
     }
 
     private fun sharePdf(context: Context, file: File) {
-        val uri = FileProvider.getUriForFile(
+       /* val uri = FileProvider.getUriForFile(
             context,
             context.applicationContext.packageName + ".provider",
             file
@@ -158,8 +155,26 @@ class PDFConverter {
             intent.setDataAndType(uri, "application/pdf")
             context.startActivity(intent)
         } catch (e: ActivityNotFoundException) {
-            Log.e("TAG", "sharePdf: ${e.localizedMessage}", )
-        }
+            Log.e("TAG", "sharePdf: ${e.localizedMessage}")
+        }*/
+
+
+    /*    val intent = Intent(Intent.ACTION_SEND)
+        intent.setType("application/pdf");
+        intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(file));
+        context.startActivity(Intent.createChooser(intent, "Share Receipt"));
+*/
+
+        val uri = FileProvider.getUriForFile(
+            context,
+            context.applicationContext.packageName + ".provider",
+            file
+        )
+        val intent = Intent(Intent.ACTION_SEND)
+        intent.type = "application/pdf"
+        intent.putExtra(Intent.EXTRA_STREAM, uri)
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        context.startActivity(Intent.createChooser(intent, "Share PDF"))
     }
 
 
