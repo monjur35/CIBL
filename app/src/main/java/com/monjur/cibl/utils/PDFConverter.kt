@@ -20,6 +20,7 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.FileProvider
+import androidx.core.net.toUri
 import com.monjur.cibl.R
 import com.monjur.cibl.databinding.FragmentPaymentBinding
 import com.monjur.cibl.databinding.StatusDialogBinding
@@ -30,15 +31,43 @@ import java.util.Date
 
 class PDFConverter {
 
-    private fun createBitmapFromView(
+
+    @RequiresApi(Build.VERSION_CODES.N)
+    fun createPdf(
         context: Context,
-        view: View,
+        pdfData: PdfData,
         activity: Activity
-    ): Bitmap {
-        return createBitmap(context, view, activity)
+    ) {
+        val inflater = LayoutInflater.from(context)
+        // val view = inflater.inflate(R.layout.status_dialog, null)
+        val view=StatusDialogBinding.inflate(inflater)
+        view.dissmiss.visibility=View.INVISIBLE
+        view.downloadPdf.visibility=View.GONE
+        view.sharePdf.visibility=View.GONE
+
+        if (pdfData.type=="Bkash"){
+            view.imageView.setImageDrawable(
+                AppCompatResources.getDrawable(context,
+                    R.drawable.bkash_money_send_icon
+                ))
+        }
+        else{
+            view.imageView.setImageDrawable(
+                AppCompatResources.getDrawable(context,
+                    R.drawable.ic_nagad
+                ) )
+        }
+
+        setDataToView(view,pdfData)
+
+
+        val bitmap = createBitmapFromView(context, view.root, activity)
+        convertBitmapToPdf(bitmap, activity,pdfData.shouldDownload)
     }
 
-    private fun createBitmap(
+
+
+    private fun createBitmapFromView(
         context: Context,
         view: View,
         activity: Activity,
@@ -70,7 +99,7 @@ class PDFConverter {
     }
 
     @RequiresApi(Build.VERSION_CODES.N)
-    private fun convertBitmapToPdf(bitmap: Bitmap, context: Context) {
+    private fun convertBitmapToPdf(bitmap: Bitmap, context: Context,shouldDownload:Boolean) {
         val pdfDocument = PdfDocument()
         val pageInfo = PdfDocument.PageInfo.Builder(bitmap.width, bitmap.height, 1).create()
         val page = pdfDocument.startPage(pageInfo)
@@ -78,91 +107,63 @@ class PDFConverter {
         pdfDocument.finishPage(page)
 
 
-        val s= if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            MediaStore.Downloads.EXTERNAL_CONTENT_URI.path
-        } else {
-            TODO("VERSION.SDK_INT < Q")
-        }
-        Log.e("TAG", "convertBitmapToPdf: $s", )
+
+
         val file = File(Environment.getExternalStoragePublicDirectory(
         Environment.DIRECTORY_DOWNLOADS), "payment receipt${Date().time}.pdf")
 
-       // val file = File(s, "bitmapPdf.pdf")
+
         Log.e("TAG", "convertBitmapToPdf:$file")
 
+        if (shouldDownload){
         try {
-            // after creating a file name we will
-            // write our PDF file to that location.
-
-
 
             if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.Q){
-                val finalUri : Uri? = copyFileToDownloads(context, file)
+                 copyFileToDownloads(context, file)
             }
             else{
                 pdfDocument.writeTo(FileOutputStream(file))
             }
-        //    val finalUri : Uri? = copyFileToDownloads(context, file)
-            // below line is to print toast message
-            // on completion of PDF generation.
-           // Log.e("TAG", "convertBitmapToPdf: done $finalUri", )
+
             Toast.makeText(context,"Downloaded",Toast.LENGTH_SHORT).show()
             Log.e("TAG", "convertBitmapToPdf:${file.path} ", )
 
         } catch (e: IOException) {
-            // below line is used
-            // to handle error
             e.printStackTrace()
             Log.e("TAG", "convertBitmapToPdf: ${e.message}", )
             Toast.makeText(context,e.localizedMessage,Toast.LENGTH_SHORT).show()
         }
 
+        }else{
+            sharePdf(context, file)
+        }
+
         pdfDocument.close()
 
-
-   //renderPdf(context, filePath)
-     // downloadPdf(filePath, context)
-
-
     }
 
-    @RequiresApi(Build.VERSION_CODES.N)
-    private fun downloadPdf(filePath: File, context: Context) {
+    private fun sharePdf(context: Context, file: File) {
+        val uri = FileProvider.getUriForFile(
+            context,
+            context.applicationContext.packageName + ".provider",
+            file
+        )
 
-    }
-
-    @RequiresApi(Build.VERSION_CODES.N)
-    fun createPdf(
-        context: Context,
-        pdfData: PdfData,
-        activity: Activity
-    ) {
-        val inflater = LayoutInflater.from(context)
-       // val view = inflater.inflate(R.layout.status_dialog, null)
-        val view=StatusDialogBinding.inflate(inflater)
-        view.dissmiss.visibility=View.INVISIBLE
-        view.downloadPdf.visibility=View.GONE
-        view.sharePdf.visibility=View.GONE
-
-        if (pdfData.type=="Bkash"){
-            view.imageView.setImageDrawable(
-                AppCompatResources.getDrawable(context,
-                R.drawable.bkash_money_send_icon
-            ))
+        try {
+           // val uris=Uri.fromFile(file)
+            val intent = Intent(Intent.ACTION_SEND)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            intent.setDataAndType(uri, "application/pdf")
+            context.startActivity(intent)
+        } catch (e: ActivityNotFoundException) {
+            Log.e("TAG", "sharePdf: ${e.localizedMessage}", )
         }
-        else{
-            view.imageView.setImageDrawable(
-                AppCompatResources.getDrawable(context,
-                R.drawable.ic_nagad
-            ) )
-        }
-
-        setDataToView(view,pdfData)
-
-
-        val bitmap = createBitmapFromView(context, view.root, activity)
-        convertBitmapToPdf(bitmap, activity)
     }
+
+
+
 
     private fun setDataToView(view: StatusDialogBinding, pdfData: PdfData) {
         view.fundTransferTxt.text="${pdfData.type} Fund Transfer"
@@ -176,42 +177,6 @@ class PDFConverter {
 
     }
 
-
-    private fun renderPdf(context: Context, filePath: File) {
-        val uri = FileProvider.getUriForFile(
-            context,
-            context.applicationContext.packageName + ".provider",
-            filePath
-        )
-        val intent = Intent(Intent.ACTION_VIEW)
-        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-        intent.setDataAndType(uri, "application/pdf")
-
-        try {
-            context.startActivity(intent)
-        } catch (e: ActivityNotFoundException) {
-
-        }
-
-
-    }
-
-    private fun copy( source:File, destination:File) {
-
-        val ina =  FileInputStream(source).channel
-        val out =  FileOutputStream(destination).channel
-
-        try {
-            ina.transferTo(0, ina.size(), out);
-        } catch(e:Exception){
-            // post to log
-        } finally {
-            ina?.close();
-            out?.close();
-        }
-    }
 
 
     fun copyFileToDownloads(context: Context, downloadedFile: File): Uri? {

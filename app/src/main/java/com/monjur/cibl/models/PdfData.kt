@@ -8,4 +8,5 @@ data class PdfData(
     val type:String,
     val location:String,
     val transactionTime:String,
+    var shouldDownload:Boolean=false,
 )
