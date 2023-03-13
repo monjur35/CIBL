@@ -7,11 +7,14 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import com.monjur.cibl.R
+import com.monjur.cibl.adapters.CategoryAdapter
 import com.monjur.cibl.databinding.FragmentDashboardBinding
+import com.monjur.cibl.response.categoryList.Category
 
 
 class DashboardFragment : Fragment() {
     var binding: FragmentDashboardBinding? = null
+
 
 
     override fun onCreateView(
@@ -19,6 +22,7 @@ class DashboardFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentDashboardBinding.inflate(inflater)
+
         // Inflate the layout for this fragment
         return binding?.root
     }
@@ -31,6 +35,10 @@ class DashboardFragment : Fragment() {
         }
         binding?.bkashCard?.setOnClickListener {
             navigateToPayment("Bkash")
+        }
+
+        binding?.productCard?.setOnClickListener {
+            Navigation.findNavController(it).navigate(R.id.action_dashboardFragment_to_categoryListFragment)
         }
     }
 

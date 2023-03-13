@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_dashboardFragment_to_paymentFragment"
             app:destination="@id/paymentFragment" />
+        <action
+            android:id="@+id/action_dashboardFragment_to_categoryListFragment"
+            app:destination="@id/categoryListFragment" />
     </fragment>
     <fragment
         android:id="@+id/paymentFragment"
@@ -24,5 +27,28 @@
             app:destination="@id/dashboardFragment"
             app:popUpTo="@id/dashboardFragment"
             app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/categoryListFragment"
+        android:name="com.monjur.cibl.fragment.CategoryListFragment"
+        android:label="fragment_category_list"
+        tools:layout="@layout/fragment_category_list" >
+        <action
+            android:id="@+id/action_categoryListFragment_to_partnerListFragment"
+            app:destination="@id/partnerListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailsFragment"
+        android:name="com.monjur.cibl.DetailsFragment"
+        android:label="fragment_details"
+        tools:layout="@layout/fragment_details" />
+    <fragment
+        android:id="@+id/partnerListFragment"
+        android:name="com.monjur.cibl.PartnerListFragment"
+        android:label="fragment_partner_list"
+        tools:layout="@layout/fragment_partner_list" >
+        <action
+            android:id="@+id/action_partnerListFragment_to_detailsFragment"
+            app:destination="@id/detailsFragment" />
     </fragment>
 </navigation>
